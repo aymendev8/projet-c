@@ -29,4 +29,7 @@ void ecrire_mot(const char* mot);
 
 int peut_ecrire(int nb_caracteres);
 
+
+
+
 #endif
