@@ -5,6 +5,7 @@
 
 t_mode mon_mode = NORMAL;
 int compteur = 0;
+int compteur_pipe = 0;  
 
 void changer_mode(t_mode mode)
 {
@@ -19,38 +20,49 @@ t_mode mode()
 void ouvrir_bloc()
 {
     if (compteur != 0) {
-        printf("|");
+        for(int z = 0; z < compteur_pipe; z++)
+            printf("|");
     }
     printf("+");
-    for (int i = 0; i < 79 - compteur; i++)
+    for (int i = 0; i < 79 - (compteur); i++)
         printf("-");
     printf("+");
     if (compteur != 0) {
-        printf("|");
+        for(int z = 0; z < compteur_pipe; z++)
+            printf("|");
     }
     compteur += 2;
+    compteur_pipe++;
     printf("\n");
 }
 void fermer_bloc(){
     compteur -= 2;
+    compteur_pipe--;
     if (compteur != 0) {
-        printf("|");
+        for(int z = 0; z < compteur_pipe; z++)
+            printf("|");
     }
     printf("+");
     for (int i = 0; i < 79 - compteur; i++)
         printf("-");
     printf("+");
     if (compteur != 0) {
-        printf("|");
+        for(int z = 0; z < compteur_pipe; z++)
+            printf("|");
     }
     printf("\n");
 }
 void ecrire_mot(const char* mot){
-    printf("|");
-    printf("%s", mot);
-    for (int i ; i < 79 - strlen(mot); i++){
-        printf(" ");
+    if (compteur != 0) {
+        for(int z = 0; z < compteur_pipe; z++)
+            printf("|");
     }
-    printf("|");
+    printf("%s", mot);
+    for (int i = 0; i <= 80 - (compteur + strlen(mot)); i++)
+        printf(" ");
+    if (compteur != 0) {
+        for(int z = 0; z < compteur_pipe; z++)
+            printf("|");
+    }
     printf("\n");
 }

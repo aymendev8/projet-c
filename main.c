@@ -4,14 +4,21 @@
 int main()
 {
     ouvrir_bloc();
-    ecrire_mot("test ovpzevjkzepofv");
-    ecrire_mot("test paedjdpoedjdojddj");
+    ecrire_mot("MEMOIRE");
+    ouvrir_bloc();
+    ecrire_mot("INTRODUCTION");
+    ecrire_mot(" * Un peu de TEXTE.");
     fermer_bloc();
     ouvrir_bloc();
+    ecrire_mot("ANNEXES");
     ouvrir_bloc();
-    ecrire_mot("Bonjour");
-    ecrire_mot("test paedjdpoedjdojddj");
+    ecrire_mot("TABLE DES MATIERES");
+    fermer_bloc();
+    ouvrir_bloc();
+    ecrire_mot("TABLE DES MATIERES");
     fermer_bloc();
     fermer_bloc();
+    fermer_bloc();
+    
     return 0;
 }
