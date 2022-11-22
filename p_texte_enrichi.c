@@ -108,7 +108,7 @@ void entamer_ligne()
 void terminer_ligne()
 {
 
-    for (int i = 0; i <= 80 - (compteur + compteur_mots); i++)
+    for (int i = 0; i < 80 - (compteur_mots); i++)
         printf(" ");
 
     if (compteur != 0)
@@ -126,6 +126,7 @@ void ecrire_mot(const char *mot)
     if (!est_au_debut_de_ligne())
     {
         printf(" ");
+        compteur_mots++;
     }
     compteur_mots += strlen(mot);
     printf("%s", mot);
