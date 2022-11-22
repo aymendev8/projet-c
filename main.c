@@ -4,21 +4,16 @@
 int main()
 {
     ouvrir_bloc();
-    ecrire_mot("MEMOIRE");
+    entamer_ligne();
+    ecrire_mot("Bonjour");
+    ecrire_mot("tout");
+    ecrire_mot("le");
+    ecrire_mot("monde");
+    terminer_ligne();
     ouvrir_bloc();
-    ecrire_mot("INTRODUCTION");
-    ecrire_mot(" * Un peu de TEXTE.");
-    fermer_bloc();
     ouvrir_bloc();
-    ecrire_mot("ANNEXES");
-    ouvrir_bloc();
-    ecrire_mot("TABLE DES MATIERES");
-    fermer_bloc();
-    ouvrir_bloc();
-    ecrire_mot("TABLE DES MATIERES");
     fermer_bloc();
     fermer_bloc();
     fermer_bloc();
-    
     return 0;
 }
