@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "p_texte_enrichi.h"
 
 t_mode mon_mode = NORMAL;
@@ -108,7 +109,7 @@ void entamer_ligne()
 void terminer_ligne()
 {
 
-    for (int i = 0; i < 80 - (compteur_mots); i++)
+    for (int i = 0; i <= 80 - (compteur_mots + compteur_pipe); i++)
         printf(" ");
 
     if (compteur != 0)
@@ -120,14 +121,26 @@ void terminer_ligne()
     compteur_mots = 0;
 }
 
+void pucer(){
+    printf("*");
+    compteur_mots++;
+}
+
 void ecrire_mot(const char *mot)
 {
-
-    if (!est_au_debut_de_ligne())
-    {
-        printf(" ");
-        compteur_mots++;
+    int taille_mot = strlen(mot);
+    if (compteur_mots + taille_mot > 80 - compteur_pipe * 2){
+        terminer_ligne();
+        entamer_ligne();
+        ecrire_mot(mot);
+        terminer_ligne();
+    }else{
+        if (!est_au_debut_de_ligne())
+        {
+            printf(" ");
+            compteur_mots++;
+        }
+        compteur_mots += strlen(mot);
+        printf("%s", mot);
     }
-    compteur_mots += strlen(mot);
-    printf("%s", mot);
 }
