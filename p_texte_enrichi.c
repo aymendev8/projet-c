@@ -5,9 +5,13 @@
 #include "p_texte_enrichi.h"
 
 t_mode mon_mode = NORMAL;
+/*compteur de bloc */
 int compteur = 0;
+/*compteur pour mettre les pipes au début et en fin de ligne  */
 int compteur_pipe = 0;
+/*compteur pour les fonctions indenter et desindenter  */
 int compteur_espaces = 0;
+/*compteur pour compter les mots par ligne */
 int compteur_mots = 0;
 
 void changer_mode(t_mode mode)
@@ -66,9 +70,9 @@ void indenter(int n)
     compteur_espaces += n;
 }
 
-void desindenter(int n)
+void desindenter()
 {
-    compteur_espaces -= n;
+    compteur_espaces -= compteur_espaces;
 }
 
 int est_en_fin_de_ligne()
@@ -128,6 +132,7 @@ void pucer(){
 
 void ecrire_mot(const char *mot)
 {
+    /* Verification que le mot ne dépasse pas de la ligne sinon création d'une nouvelle ligne */
     int taille_mot = strlen(mot);
     if (compteur_mots + taille_mot > 80 - compteur_pipe * 2){
         terminer_ligne();
@@ -141,6 +146,22 @@ void ecrire_mot(const char *mot)
             compteur_mots++;
         }
         compteur_mots += strlen(mot);
-        printf("%s", mot);
+        /* Ecrire le mot en fonction du mode choisis */
+        for (int i = 0; i < taille_mot; i++)
+        {
+            if (mon_mode == MAJUSCULE)
+            {
+                printf("%c", toupper(mot[i]));
+            }
+            else if (mon_mode == MINUSCULE)
+            {
+                printf("%c", tolower(mot[i]));
+            }
+            else
+            {
+                printf("%c", mot[i]);
+            }
+        }
+        
     }
 }
