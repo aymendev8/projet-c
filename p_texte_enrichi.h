@@ -1,33 +1,109 @@
+/**
+ * @brief Il s'agit d'une bibliothèque permettant d'écrire du texte de facon plus claire et plus lisible.
+ * 
+ * @author Aymen Kadri & Roméo Froger
+ * @date novembre 2022
+ */
+
 #ifndef P_TEXTE_ENRICHI
 #define P_TEXTE_ENRICHI
 
 typedef enum e_mode{NORMAL, MAJUSCULE, MINUSCULE} t_mode;
 
-//oui
+/**
+ * @brief Cette fonction permet de changer le mode d'affichage du texte.
+ * IL y a trois modes possibles : NORMAL, MAJUSCULE, MINUSCULE.
+ *
+ * 
+ * @param mode 
+ */
 void changer_mode(t_mode mode);
-//oui
+
+
+/**
+ * @brief Cette fonction permet de retourner le mode actuel.
+ * 
+ */
 t_mode mode();
-//oui
+
+
+/**
+ * @brief Cette fonction permet d'ouvrir un bloc.
+ * 
+ * 
+ */
 void ouvrir_bloc();
-//oui
+
+
+/**
+ * @brief Cette fonction permet de fermer un bloc.
+ * 
+ * 
+ */
 void fermer_bloc();
-//oui
-void indenter();
-//oui
+
+/**
+ * @brief Cette fonction permet d'indenter une ligne de nombre_d_espaces espaces.
+ * 
+ * 
+ * @param nombre_d_espaces 
+ */
+void indenter(int nombre_d_espaces);
+
+/**
+ * @brief Cette fonction permet desindenter une ligne.
+ * 
+ * 
+ *
+ */
 void desindenter();
-//oui
+
+/**
+ * @brief Cette fonction permet de savoir si on est en fin de ligne.
+ * 
+ * 
+ * @return int 
+ */
 int est_en_fin_de_ligne();
-//oui
+
+
+/**
+ * @brief Cette fonction permet de savoir si on est au début de ligne.
+ * 
+ * 
+ * @return int 
+ */
 int est_au_debut_de_ligne();
-//oui
+
+/**
+ * @brief Cette fonction permet d'entamer une ligne.
+ * 
+ * 
+ */
 void entamer_ligne();
-//oui
+
+/**
+ * @brief Cette fonction permet de terminer une ligne.
+ * 
+ */
 void terminer_ligne();
-//oui
+
+/**
+ * @brief Cette fonction de mettre une *.
+ * 
+ * 
+ * 
+ */
 void pucer();
-//oui
+
+/**
+ * @brief Cette fonction permet d'écrire un mot.
+ * 
+ * 
+ * @param mot 
+ */
 void ecrire_mot(const char* mot);
-//non
+
 int peut_ecrire(int nb_caracteres);
 
 #endif
