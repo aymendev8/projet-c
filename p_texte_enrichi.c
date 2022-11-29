@@ -126,8 +126,8 @@ void terminer_ligne()
 }
 
 void pucer(){
-    printf("*");
-    compteur_mots++;
+    printf(" * ");
+    compteur_mots+=3;
 }
 
 void ecrire_mot(const char *mot)
@@ -164,4 +164,11 @@ void ecrire_mot(const char *mot)
         }
         
     }
+}
+int peut_ecrire(int nb_caracteres){
+    /* Nombre caractere deja present sur la ligne + le nb_caracteres du mot > 80 - les pipes qui viennent ouvrir et fermer la ligne d'ou le *2 ! */
+    if (compteur_mots + nb_caracteres > 80 - compteur_pipe * 2){
+        return 0;
+    }
+    return 1;
 }
