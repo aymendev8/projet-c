@@ -3,7 +3,6 @@
 #include "p_texte_enrichi.h"
 #include "p_nanodom.h"
 
-
 p_noeud mon_document;
 
 p_noeud mon_titre_1;
@@ -35,8 +34,8 @@ p_noeud ma_feuille_11;
 p_noeud ma_feuille_12;
 p_noeud ma_feuille_13;
 
-
-void creer(){
+void creer()
+{
     creer_noeud(&mon_document, DOCUMENT, NULL, NULL, NULL, NULL, NULL, NULL);
 
     creer_noeud(&mon_titre_1, TITRE, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -70,23 +69,23 @@ void creer(){
     creer_noeud(&ma_feuille_13, MOT, "figures", NULL, NULL, NULL, NULL, NULL);
 }
 
-void assembler(){
+void assembler()
+{
     inserer_aine(mon_document, mon_titre_1);
-    inserer_aine(mon_titre_1, ma_feuille_1);    //mémoire
+    inserer_aine(mon_titre_1, ma_feuille_1); // mémoire
 
     inserer_cadet(mon_document, ma_section_1);
 
     inserer_aine(ma_section_1, mon_titre_2);
 
-
-    inserer_aine(mon_titre_2, ma_feuille_2);   //Introduction
-    inserer_apres(mon_titre_2, ma_feuille_3);   //bla bla
+    inserer_aine(mon_titre_2, ma_feuille_2);  // Introduction
+    inserer_apres(mon_titre_2, ma_feuille_3); // bla bla
     inserer_apres(ma_feuille_3, ma_liste_1);
 
     inserer_cadet(ma_liste_1, mon_item_1);
-    
-    inserer_aine(mon_item_1, ma_feuille_4); // Un
-    inserer_cadet(mon_item_1, ma_feuille_5); // Peu de
+
+    inserer_aine(mon_item_1, ma_feuille_4);      // Un
+    inserer_cadet(mon_item_1, ma_feuille_5);     // Peu de
     inserer_aine(mon_important_1, ma_feuille_6); // texte
     inserer_cadet(mon_item_1, mon_important_1);
 
@@ -98,8 +97,8 @@ void assembler(){
     inserer_aine(mon_titre_3, ma_feuille_7); // Annexes
 
     inserer_aine(ma_section_3, mon_titre_4);
-    inserer_cadet(mon_titre_4, ma_feuille_8); // Table
-    inserer_cadet(mon_titre_4, ma_feuille_9); // des
+    inserer_cadet(mon_titre_4, ma_feuille_8);  // Table
+    inserer_cadet(mon_titre_4, ma_feuille_9);  // des
     inserer_cadet(mon_titre_4, ma_feuille_10); // Matieres
 
     inserer_cadet(mon_titre_5, ma_feuille_11); // Table
@@ -107,10 +106,10 @@ void assembler(){
     inserer_cadet(mon_titre_5, ma_feuille_13); // Matieres
 
     inserer_cadet(ma_section_4, mon_titre_5);
-
 }
 
-void debugger(){
+void debugger()
+{
 
     debugger_noeud(mon_document);
     debugger_noeud(mon_titre_1);
@@ -139,9 +138,9 @@ void debugger(){
     debugger_noeud(ma_feuille_12);
 }
 
-
-int main(){
-
+int main()
+{
+    debugger();
     creer();
     debugger();
     assembler();
