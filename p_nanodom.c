@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "p_nanodom.h"
+#include "p_texte_enrichi.h"
 
 const char *t_token_image(t_token ceci)
 {
@@ -134,5 +135,46 @@ void extraire(p_noeud ceci){
         ceci->les_parentes[DERNIER_FILS]->les_parentes[PERE] = NULL;
         ceci->les_parentes[DERNIER_FILS] = NULL;
     }
+    if (ceci->les_parentes[GRAND_FRERE] != NULL)
+    {
+        ceci->les_parentes[GRAND_FRERE]->les_parentes[PETIT_FRERE] = NULL;
+        ceci->les_parentes[GRAND_FRERE] = NULL;
+    }
+    if (ceci->les_parentes[PETIT_FRERE] != NULL)
+    {
+        ceci->les_parentes[PETIT_FRERE]->les_parentes[GRAND_FRERE] = NULL;
+        ceci->les_parentes[PETIT_FRERE] = NULL;
+    }
+    if (ceci->les_parentes[PERE] != NULL)
+    {
+        if (ceci->les_parentes[PERE]->les_parentes[PREMIER_FILS] == ceci)
+        {
+            ceci->les_parentes[PERE]->les_parentes[PREMIER_FILS] = NULL;
+        }
+        if (ceci->les_parentes[PERE]->les_parentes[DERNIER_FILS] == ceci)
+        {
+            ceci->les_parentes[PERE]->les_parentes[DERNIER_FILS] = NULL;
+        }
+        ceci->les_parentes[PERE] = NULL;
+    }
 }
 
+void afficher_elabore(t_arbre_nanodom ceci){
+    if (ceci != NULL){
+        printf("%s", t_token_image(ceci->l_etiquette));
+    }
+}
+
+void afficher_enrichi(t_arbre_nanodom ceci){
+    if (ceci != NULL){
+        ouvrir_bloc();
+        entamer_ligne();
+        ecrire_mot(t_token_image(ceci->l_etiquette));
+        terminer_ligne();
+        if (ceci->le_contenu != NULL){
+            ecrire_mot(ceci->le_contenu);
+        }
+    }
+        
+
+}
