@@ -77,10 +77,17 @@ void modifier_parente_noeud(p_noeud ceci, t_parente lien_de_parente, p_noeud nou
     ceci->les_parentes[lien_de_parente] = nouveau_parent;
 }
 
-void debugger_noeud(p_noeud ceci)
-{
-    printf(ceci->le_contenu);
+void debugger_noeud(p_noeud ceci){
+    printf("Noeud range a l'adresse %p \n", ceci);
+    printf("    -Etiquette : %s \n", t_token_image(ceci->l_etiquette));
+    printf("    -Contenu : %s \n", ceci->le_contenu);
+    printf("    -Pere : %p \n", &ceci->les_parentes[PERE]);
+    printf("    -Premier fils : %p \n", &ceci->les_parentes[PREMIER_FILS]);
+    printf("    -Dernier fils : %p \n", &ceci->les_parentes[DERNIER_FILS]);
+    printf("    -Grand frere : %p \n", &ceci->les_parentes[GRAND_FRERE]);
+    printf("    -Petit frere : %p \n", &ceci->les_parentes[PETIT_FRERE]);
 }
+
 
 void inserer_aine(p_noeud ceci, p_noeud orphelin)
 {
@@ -116,3 +123,16 @@ void inseret_avant(p_noeud ceci, p_noeud orphelin)
         inserer_aine(ceci, orphelin);
     }
 }
+void extraire(p_noeud ceci){
+    if (ceci->les_parentes[PREMIER_FILS] != NULL)
+    {
+        ceci->les_parentes[PREMIER_FILS]->les_parentes[PERE] = NULL;
+        ceci->les_parentes[PREMIER_FILS] = NULL;
+    }
+    if (ceci->les_parentes[DERNIER_FILS] != NULL)
+    {
+        ceci->les_parentes[DERNIER_FILS]->les_parentes[PERE] = NULL;
+        ceci->les_parentes[DERNIER_FILS] = NULL;
+    }
+}
+
