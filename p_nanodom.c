@@ -82,48 +82,69 @@ void debugger_noeud(p_noeud ceci){
     printf("Noeud range a l'adresse %p \n", ceci);
     printf("    -Etiquette : %s \n", t_token_image(ceci->l_etiquette));
     printf("    -Contenu : %s \n", ceci->le_contenu);
-    printf("    -Pere : %p \n", &ceci->les_parentes[PERE]);
-    printf("    -Premier fils : %p \n", &ceci->les_parentes[PREMIER_FILS]);
-    printf("    -Dernier fils : %p \n", &ceci->les_parentes[DERNIER_FILS]);
-    printf("    -Grand frere : %p \n", &ceci->les_parentes[GRAND_FRERE]);
-    printf("    -Petit frere : %p \n", &ceci->les_parentes[PETIT_FRERE]);
+    printf("    -Pere : %p \n", ceci->les_parentes[PERE]);
+    printf("    -Premier fils : %p \n", ceci->les_parentes[PREMIER_FILS]);
+    printf("    -Dernier fils : %p \n", ceci->les_parentes[DERNIER_FILS]);
+    printf("    -Grand frere : %p \n", ceci->les_parentes[GRAND_FRERE]);
+    printf("    -Petit frere : %p \n", ceci->les_parentes[PETIT_FRERE]);
 }
-
 
 void inserer_aine(p_noeud ceci, p_noeud orphelin)
 {
-    ceci->les_parentes[PREMIER_FILS] = orphelin;
-    orphelin->les_parentes[PERE] = ceci;
+    if(ceci->les_parentes[PREMIER_FILS] == NULL){
+        modifier_parente_noeud(ceci,PREMIER_FILS,orphelin);
+        modifier_parente_noeud(ceci,DERNIER_FILS,orphelin);
+        modifier_parente_noeud(ceci->les_parentes[PREMIER_FILS],PERE,ceci);
+    }else if (ceci->les_parentes[PREMIER_FILS] != NULL) {
+        modifier_parente_noeud(orphelin,PETIT_FRERE,ceci->les_parentes[PREMIER_FILS]);
+        modifier_parente_noeud(ceci->les_parentes[PREMIER_FILS],GRAND_FRERE,orphelin);
+        modifier_parente_noeud(ceci,PREMIER_FILS,orphelin);
+        modifier_parente_noeud(ceci->les_parentes[PREMIER_FILS],PERE,ceci);
+    }
 }
 
 void inserer_cadet(p_noeud ceci, p_noeud orphelin)
 {
-    ceci->les_parentes[DERNIER_FILS] = orphelin;
-    orphelin->les_parentes[PERE] = ceci;
+    if(ceci->les_parentes[DERNIER_FILS] == NULL){
+        modifier_parente_noeud(ceci,PREMIER_FILS,orphelin);
+        modifier_parente_noeud(ceci,DERNIER_FILS,orphelin);
+        modifier_parente_noeud(ceci->les_parentes[DERNIER_FILS],PERE,ceci);
+    }else if (ceci->les_parentes[DERNIER_FILS] != NULL) {
+        modifier_parente_noeud(orphelin,GRAND_FRERE,ceci->les_parentes[DERNIER_FILS]);
+        modifier_parente_noeud(ceci->les_parentes[DERNIER_FILS],PETIT_FRERE,orphelin);
+        modifier_parente_noeud(ceci,DERNIER_FILS,orphelin);
+        modifier_parente_noeud(ceci->les_parentes[DERNIER_FILS],PERE,ceci);
+    }
+}
+
+
+void inserer_avant(p_noeud ceci, p_noeud orphelin)
+{
+   if(ceci->les_parentes[GRAND_FRERE] == NULL){
+        inserer_aine(ceci->les_parentes[PERE], orphelin);
+   }else{
+        modifier_parente_noeud(orphelin, PERE, ceci->les_parentes[PERE]);
+        modifier_parente_noeud(ceci->les_parentes[GRAND_FRERE], PETIT_FRERE, orphelin);
+        modifier_parente_noeud(orphelin, GRAND_FRERE, ceci->les_parentes[GRAND_FRERE]);
+        modifier_parente_noeud(orphelin, PETIT_FRERE, ceci);
+        modifier_parente_noeud(ceci, GRAND_FRERE, orphelin);     
+   }
 }
 
 void inserer_apres(p_noeud ceci, p_noeud orphelin)
 {
-    if (ceci->les_parentes[DERNIER_FILS] != NULL)
-    {
-        inserer_cadet(ceci->les_parentes[PREMIER_FILS], orphelin);
+    if(ceci->les_parentes[PETIT_FRERE] == NULL){
+        inserer_cadet(ceci->les_parentes[PERE], orphelin);
+    } else{
+        modifier_parente_noeud(orphelin, PERE, ceci->les_parentes[PERE]);
+        modifier_parente_noeud(ceci->les_parentes[PETIT_FRERE], GRAND_FRERE, orphelin);
+        modifier_parente_noeud(orphelin, PETIT_FRERE, ceci->les_parentes[PETIT_FRERE]);
+        modifier_parente_noeud(orphelin, GRAND_FRERE, ceci);
+        modifier_parente_noeud(ceci, PETIT_FRERE, orphelin);
     }
-    else
-    {
-        inserer_aine(ceci, orphelin);
-    }
+    
 }
-void inseret_avant(p_noeud ceci, p_noeud orphelin)
-{
-    if (ceci->les_parentes[PREMIER_FILS] != NULL)
-    {
-        inserer_cadet(ceci->les_parentes[PREMIER_FILS], orphelin);
-    }
-    else
-    {
-        inserer_aine(ceci, orphelin);
-    }
-}
+
 void extraire(p_noeud ceci){
     if (ceci->les_parentes[PREMIER_FILS] != NULL)
     {
@@ -159,22 +180,68 @@ void extraire(p_noeud ceci){
     }
 }
 
-void afficher_elabore(t_arbre_nanodom ceci){
-    if (ceci != NULL){
-        printf("%s", t_token_image(ceci->l_etiquette));
-    }
-}
 
 void afficher_enrichi(t_arbre_nanodom ceci){
     if (ceci != NULL){
-        ouvrir_bloc();
-        entamer_ligne();
-        ecrire_mot(t_token_image(ceci->l_etiquette));
-        terminer_ligne();
-        if (ceci->le_contenu != NULL){
-            ecrire_mot(ceci->le_contenu);
-        }
-    }
-        
+       if (t_token_image(ceci->l_etiquette) == "DOCUMENT"){
+            ouvrir_bloc();
+            afficher_enrichi(ceci->les_parentes[PREMIER_FILS]);
+            fermer_bloc();
+       }
+       if(t_token_image(ceci->l_etiquette) == "SECTION"){
+            ouvrir_bloc();
+            afficher_enrichi(ceci->les_parentes[PREMIER_FILS]);
+            fermer_bloc();
+       }
+       if(t_token_image(ceci->l_etiquette) == "TITRE"){
+            changer_mode(MAJUSCULE);
+            entamer_ligne();
+            afficher_enrichi(ceci->les_parentes[PREMIER_FILS]);
+            terminer_ligne();
+            changer_mode(NORMAL);
+       }
+       if(t_token_image(ceci->l_etiquette) == "LISTE"){
+            entamer_ligne();
+            indenter(10);
+            afficher_enrichi(ceci->les_parentes[PREMIER_FILS]);
+       }
+       if(t_token_image(ceci->l_etiquette) == "ITEM"){
+            pucer();
+            afficher_enrichi(ceci->les_parentes[PREMIER_FILS]);
+            desindenter();
+            terminer_ligne();
+       }
+       if (t_token_image(ceci->l_etiquette) == "IMPORTANT"){
+           changer_mode(MAJUSCULE);
+            afficher_enrichi(ceci->les_parentes[PREMIER_FILS]);
+            changer_mode(NORMAL);
+       }
 
+       if(t_token_image(ceci->l_etiquette) == "MOT"){
+            if((ceci->les_parentes[GRAND_FRERE] != NULL) && (ceci->les_parentes[GRAND_FRERE]->l_etiquette!=MOT) && (ceci->les_parentes[GRAND_FRERE]->l_etiquette!=IMPORTANT)){
+                entamer_ligne();
+            }
+            ecrire_mot(ceci->le_contenu);
+            if((ceci->les_parentes[PETIT_FRERE] != NULL) && (ceci->les_parentes[PETIT_FRERE]->l_etiquette!=MOT) && (ceci->les_parentes[PETIT_FRERE]->l_etiquette!=IMPORTANT)){
+                terminer_ligne();
+            }
+       }
+       afficher_enrichi(ceci->les_parentes[PETIT_FRERE]);
+    }
+}
+
+void afficher_elabore(t_arbre_nanodom ceci){
+    
+}
+
+
+void detruire_nanodom(t_arbre_nanodom *ceci){
+    if (*ceci != NULL){
+        detruire_nanodom(&(*ceci)->les_parentes[PREMIER_FILS]);
+        detruire_nanodom(&(*ceci)->les_parentes[DERNIER_FILS]);
+        detruire_nanodom(&(*ceci)->les_parentes[GRAND_FRERE]);
+        detruire_nanodom(&(*ceci)->les_parentes[PETIT_FRERE]);
+        detruire_nanodom(&(*ceci)->les_parentes[PERE]);
+        detruire_noeud(ceci);
+    }
 }
