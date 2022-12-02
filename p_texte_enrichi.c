@@ -97,12 +97,14 @@ void entamer_ligne()
 {
     if (compteur != 0)
     {
+        // pipe de debut de ligne
         for (int z = 0; z < compteur_pipe; z++)
         {
             compteur_mots++;
             printf("|");
         }
     }
+    // potentiel indentation 
     for (int i = 0; i < compteur_espaces; i++)
     {
         compteur_mots++;
@@ -113,9 +115,11 @@ void entamer_ligne()
 void terminer_ligne()
 {
 
+    // espaces manquant pour la ligne
     for (int i = 0; i <= 80 - (compteur_mots + compteur_pipe); i++)
         printf(" ");
 
+    // pipe de fin de ligne
     if (compteur != 0)
     {
         for (int z = 0; z < compteur_pipe; z++)
@@ -162,11 +166,10 @@ void ecrire_mot(const char *mot)
                 printf("%c", mot[i]);
             }
         }
-        
     }
 }
 int peut_ecrire(int nb_caracteres){
-    /* Nombre caractere deja present sur la ligne + le nb_caracteres du mot > 80 - les pipes qui viennent ouvrir et fermer la ligne d'ou le *2 ! */
+    /* Nombre caractere deja present sur la ligne + le nb_caracteres du mot > 80 - les pipes qui viennent ouvrir et fermer la ligne (d'ou le *2) ! */
     if (compteur_mots + nb_caracteres > 80 - compteur_pipe * 2){
         return 0;
     }
