@@ -3,7 +3,6 @@
 
 int main()
 {
-    /*
     ouvrir_bloc();
     entamer_ligne();
     ecrire_mot("Bonjour");
@@ -22,8 +21,4 @@ int main()
     fermer_bloc();
     fermer_bloc();
     return 0;
-    */
-    p_noeud ma_feuille_1;
-    creer_noeud(&ma_feuille_1, MOT, "Memoire", NULL, NULL, NULL, NULL, NULL);
-    debugger_noeud(ma_feuille_1);
 }
